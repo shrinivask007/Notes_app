@@ -2,7 +2,6 @@ import React from "react";
 import "./NoteCard.css";
 
 const NoteCard = ({ note, onDelete, onEdit }) => {
-  // Format the date to display in a readable format
   const formatDate = (timestamp) => {
     const date = new Date(timestamp);
     return date.toLocaleString('en-US', {
