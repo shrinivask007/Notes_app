@@ -23,6 +23,11 @@ NotesApp helps you easily create, search, edit, and delete notes — all stored 
 - **HTML5 / CSS3** – Styling and layout  
 - **Local Storage API** – Persistent note saving without a backend .
 
+## 📸 Screenshots
+
+| ![Home Page](screenshots/ss1.png) | ![About Page](screenshots/ss2.png) |
+|----------------------------------------|------------------------------------------|
+| ![Create Note](screenshots/ss3.png) | ![Edit Note](screenshots/ss4.png) |
 
 ---
 
@@ -30,12 +35,12 @@ NotesApp helps you easily create, search, edit, and delete notes — all stored 
 
 Follow these steps to run the app locally:
 
-```bash
+```
 # 1. Clone this repository
 git clone https://github.com/shrinivask007/Notes_app.git
 
 # 2. Navigate into the project directory
-cd my-app
+cd Notes_app
 
 # 3. Install dependencies
 npm install
