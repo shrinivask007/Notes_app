@@ -1,0 +1,59 @@
+.notes-page {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.search-add-container {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.search-bar {
+  flex: 1;
+  padding: 12px 15px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  font-size: 1rem;
+  font-family: "Segoe UI", sans-serif;
+  transition: border 0.3s ease, box-shadow 0.3s ease;
+}
+
+.search-bar:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
+}
+
+.add-note-btn {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 10px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.add-note-btn:hover {
+  background-color: #0056b3;
+}
+
+.notes-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+.empty-text {
+  color: #888;
+  text-align: center;
+  font-style: italic;
+  grid-column: 1 / -1;
+  padding: 40px;
+}

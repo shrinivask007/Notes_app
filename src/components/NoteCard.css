@@ -1,0 +1,83 @@
+.note-card {
+  background: #ffffff;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  text-align: left;
+  position: relative;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  border-left: 4px solid #007bff;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 150px;
+  height: auto; 
+}
+
+.note-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+}
+
+.note-card h3 {
+  margin-top: 0;
+  margin-bottom: 12px;
+  font-size: 1.2rem;
+  color: #333;
+  font-weight: 600;
+}
+
+.note-card p {
+  margin: 0;
+  font-size: 0.95rem;
+  color: #666;
+  line-height: 1.5;
+  white-space: pre-wrap;
+  flex: 1;
+  margin-bottom: 15px;
+}
+
+.note-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-top: auto;
+}
+
+.note-date {
+  font-size: 0.75rem;
+  color: #888;
+  font-style: italic;
+}
+
+.note-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.note-actions button {
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  transition: background-color 0.2s ease;
+}
+
+.note-actions button:first-child {
+  background: #007bff;
+  color: white;
+}
+
+.note-actions button:first-child:hover {
+  background: #0056b3;
+}
+
+.note-actions button:last-child {
+  background: #ff4d4d;
+  color: white;
+}
+
+.note-actions button:last-child:hover {
+  background: #e60000;
+}
