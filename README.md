@@ -24,3 +24,22 @@ NotesApp helps you easily create, search, edit, and delete notes — all stored 
 - **Local Storage API** – Persistent note saving without a backend .
 
 
+---
+
+## ⚙️ Installation & Setup
+
+Follow these steps to run the app locally:
+
+```bash
+# 1. Clone this repository
+git clone https://github.com/shrinivask007/Notes_app.git
+
+# 2. Navigate into the project directory
+cd my-app
+
+# 3. Install dependencies
+npm install
+
+# 4. Start the development server
+npm start
+
