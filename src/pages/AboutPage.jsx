@@ -3,9 +3,7 @@ import React from "react";
 const AboutPage = () => {
   return (
     <div className="about-page">
-      <div className="about-container">
-        <h1>About NotesApp</h1>
-        
+      <div className="about-container">        
         <div className="about-content">
           <section className="about-section">
             <h2>What is NotesApp?</h2>
@@ -26,6 +24,17 @@ const AboutPage = () => {
               <li>Automatic save to local storage</li>
               <li>Clean and user-friendly interface</li>
 
+            </ol>
+          </section>
+
+          <section className="about-section">
+            <h2>Changes Made / Features Added</h2>
+            <ol className="features-list">
+              <li>Added Login Page and logout functionality</li>
+              <li>Implemented route access control</li>
+              <li>Added table view for notes data</li>
+              <li>Added dropdown selector to switch between grid view and table view</li>
+              <li>Added confirmation before saving and deleting notes</li>
             </ol>
           </section>
 

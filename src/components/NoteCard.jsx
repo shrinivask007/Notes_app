@@ -13,6 +13,10 @@ const NoteCard = ({ note, onDelete, onEdit }) => {
     });
   };
 
+  const handleDelete = () => {
+    onDelete(note.id);
+  };
+
   return (
     <div className="note-card">
       <h3>{note.title}</h3>
@@ -21,7 +25,7 @@ const NoteCard = ({ note, onDelete, onEdit }) => {
         <span className="note-date">{formatDate(note.id)}</span>
         <div className="note-actions">
           <button onClick={() => onEdit(note)}>✏️ Edit</button>
-          <button onClick={() => onDelete(note.id)}>🗑️ Delete</button>
+          <button onClick={handleDelete}>🗑️ Delete</button>
         </div>
       </div>
     </div>

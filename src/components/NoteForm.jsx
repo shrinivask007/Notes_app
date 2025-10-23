@@ -61,7 +61,7 @@ const NoteForm = ({ isOpen, onClose, onAddNote, editingNote, onEditNote }) => {
               Cancel
             </button>
             <button type="submit">
-              {editingNote ? "Save Changes" : "Add Note"}
+              {editingNote ? "Save Changes" : "Save"}
             </button>
           </div>
         </form>

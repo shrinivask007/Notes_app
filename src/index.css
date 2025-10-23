@@ -11,3 +11,30 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+
+body.dark-mode {
+  background: #1a1a1a;
+  color: #ffffff;
+}
+
+body.dark-mode .navbar {
+  background: linear-gradient(135deg, #2d3748 0%, #1a202c 100%);
+}
+
+body.dark-mode .main-content {
+  background: #1a1a1a;
+}
+
+body.dark-mode .note-card {
+  background: #2d3748;
+  color: #ffffff;
+}
+
+body.dark-mode .note-card h3 {
+  color: #ffffff;
+}
+
+body.dark-mode .note-card p {
+  color: #e2e8f0;
+}
