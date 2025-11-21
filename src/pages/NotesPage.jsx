@@ -2,39 +2,114 @@ import React, { useState, useEffect } from "react";
 import NoteCard from "../components/NoteCard";
 import NoteForm from "../components/NoteForm";
 import "./NotesPage.css";
+import { insertNote, fetchNotes, updateNote, deleteNote as deleteNoteAPI } from "../api/cloudioService";
+import { useUser } from "../context/UserContext";
+
 
 const NotesPage = () => {
-  const [notes, setNotes] = useState(() => {
-    const savedNotes = localStorage.getItem("notesData");
-    return savedNotes ? JSON.parse(savedNotes) : [];
-  });
-
+  const [notes, setNotes] = useState([]);
   const [search, setSearch] = useState("");
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [editingNote, setEditingNote] = useState(null);
   const [viewMode, setViewMode] = useState("grid");
+  const [loading, setLoading] = useState(false);
+  const { user } = useUser();
 
+    const formatDate = (timestamp) => {
+    const date = new Date(parseInt(timestamp));
+    return date.toLocaleString('en-US', {
+      month: 'short',
+      day: 'numeric',
+      year: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit'
+    });
+  };
+
+  // Load notes from API when component mounts or user changes
   useEffect(() => {
-    localStorage.setItem("notesData", JSON.stringify(notes));
-  }, [notes]);
+    if (user && user.id) {
+      loadNotesFromAPI();
+    }
+  }, [user]); 
 
-const addNote = (title, content) => {
-  const isConfirmed = window.confirm("Are you sure you want to create this note?");
-  if (isConfirmed) {
-    const newNote = { id: Date.now(), title, content };
-    setNotes([...notes, newNote]);
-  }
-};
+  // Function to load notes from API
+  const loadNotesFromAPI = async () => {
+    if (!user?.id) return;
+    
+    setLoading(true);
+    try {
+      const notesData = await fetchNotes(user.id, user); 
+      setNotes(notesData);
+    } catch (error) {
+      console.error("Failed to load notes from API:", error);
+      alert("Failed to load notes. Please try again.");
+    } finally {
+      setLoading(false);
+    }
+  };
 
-const editNote = (id, newTitle, newContent) => {
-  const isConfirmed = window.confirm("Are you sure you want to save these changes?");
-  if (isConfirmed) {
-    setNotes(notes.map(note => 
-      note.id === id ? { ...note, title: newTitle, content: newContent } : note
-    ));
-    setEditingNote(null);
-  }
-};
+  const addNote = async (title, content) => {
+    const isConfirmed = window.confirm("Are you sure you want to create this note?");
+    if (!isConfirmed || !user) return;
+
+    try {
+       const noteId = Date.now();
+      
+      await insertNote({
+        userId: user.id,
+        noteId: noteId,
+        title: title,
+        content: content
+      }, user);
+
+      // After successful insertion, reload notes from API
+      await loadNotesFromAPI();
+      
+      alert("Note created successfully!");
+      
+    } catch (error) {
+      console.error("Failed to create note:", error);
+      alert("Failed to create note. Please try again.");
+    }
+  };
+
+  const editNote = async (id, newTitle, newContent) => {
+    const isConfirmed = window.confirm("Are you sure you want to save these changes?");
+    if (!isConfirmed || !user) return;
+
+    try {
+      // Find the note to get all required fields
+      const noteToUpdate = notes.find(note => note.id === id);
+      if (!noteToUpdate) {
+        throw new Error("Note not found");
+      }
+
+      // Prepare update data with all required fields
+      const updateData = {
+        id: noteToUpdate.id, // Table ID (mandatory)
+        content: newContent,
+        title: newTitle,
+        creationDate: noteToUpdate.creationDate, 
+        createdBy: noteToUpdate.createdBy, 
+        lastUpdateDate: noteToUpdate.lastUpdateDate, 
+        lastUpdatedBy: user.username 
+      };
+
+      await updateNote(updateData, user);
+      
+      // Refresh the notes list from API
+      await loadNotesFromAPI();
+      
+      setEditingNote(null);
+      alert("Note updated successfully!");
+      
+    } catch (error) {
+      console.error("Failed to update note:", error);
+      alert("Failed to update note. Please try again.");
+    }
+  };
+
 
   const handleEditClick = (note) => {
     setEditingNote(note);
@@ -46,11 +121,20 @@ const editNote = (id, newTitle, newContent) => {
     setEditingNote(null);
   };
 
-const deleteNote = (id) => {
+const deleteNote = async (id) => {
   const isConfirmed = window.confirm("Are you sure you want to delete this note?");
-    if (isConfirmed) {
-      setNotes(notes.filter((note) => note.id !== id));
-    }
+  if (!isConfirmed || !user) return;
+
+  try {
+    await deleteNoteAPI(id, user);
+    
+    setNotes(notes.filter((note) => note.id !== id));
+    
+    alert("Note deleted successfully!");
+  } catch (error) {
+    console.error("Failed to delete note:", error);
+    alert("Failed to delete note. Please try again.");
+  }
 };
 
   const filteredNotes = notes.filter(
@@ -59,16 +143,7 @@ const deleteNote = (id) => {
       note.content.toLowerCase().includes(search.toLowerCase())
   );
 
-  const formatDate = (timestamp) => {
-    const date = new Date(timestamp);
-    return date.toLocaleString('en-US', {
-      month: 'short',
-      day: 'numeric',
-      year: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit'
-    });
-  };
+
 
   return (
     <>
@@ -98,6 +173,9 @@ const deleteNote = (id) => {
         </select>
       </div>
 
+
+      {loading && <p className="loading-text">Loading notes...</p>}
+
       {viewMode === "grid" ? (
         <div className="notes-grid">
           {filteredNotes.length > 0 ? (
@@ -110,7 +188,9 @@ const deleteNote = (id) => {
               />
             ))
           ) : (
-            <p className="empty-text">No notes found.</p>
+            <p className="empty-text">
+              {loading ? "Loading..." : "No notes found."}
+            </p>
           )}
         </div>
       ) : (
@@ -148,7 +228,9 @@ const deleteNote = (id) => {
               </tbody>
             </table>
           ) : (
-            <p className="empty-text">No notes found.</p>
+            <p className="empty-text">
+              {loading ? "Loading..." : "No notes found."}
+            </p>
           )}
         </>
       )}

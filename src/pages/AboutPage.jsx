@@ -35,6 +35,7 @@ const AboutPage = () => {
               <li>Added table view for notes data</li>
               <li>Added dropdown selector to switch between grid view and table view</li>
               <li>Added confirmation before saving and deleting notes</li>
+              <li>Implemented user-specific data storage with multi-user support in localStorage</li>
             </ol>
           </section>
 
